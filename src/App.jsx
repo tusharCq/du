@@ -247,7 +247,7 @@ export default function Page() {
   useEffect(() => {
     if (yesPressed && noCount < 4 && !popupShown) {
       Swal.fire({
-        title: "I love you sooo Much!!!❤️, You’ve stolen my heart completely!!! 🥰💖 But itni pyaari ladki aur itni jaldi haan? Thoda aur nakhre karke mujhe tarpaao na! 🥰✨",
+        title: "I like you sooo Much!!!❤️, You’ve stolen my heart completely!!! 🥰💖 But itni pyaari ladki aur itni jaldi haan? Thoda aur nakhre karke mujhe tarpaao na! 🥰✨",
         showClass: {
           popup: `
             animate__animated
@@ -274,7 +274,7 @@ export default function Page() {
   useEffect(() => {
     if (yesPressed && noCount > 3 && !yespopupShown) {
       Swal.fire({
-        title: "I love you so much!! ❤️ You are my everything, my joy, my forever. Every moment with you is a memory I’ll cherish forever, and my heart beats only for you.</br> Will you be the love of my life forever?",
+        title: " ❤️ You are my everything, my joy, my forever. Every moment with you is a memory I’ll cherish forever.</br> Will you be Valentine Revti?",
         width: 800,
         padding: "2em",
         color: "#716add",
@@ -294,7 +294,7 @@ export default function Page() {
   useEffect(() => {
     if (noCount == 25) {
       Swal.fire({
-        title: "My love for you is endless, like the stars in the sky—shining for you every night, even if you don’t always notice. 🌟 I’ll wait patiently, proving every day that you’re my everything. ❤️ Please press ‘Yes’ and let’s make this a forever story. 🥰✨<br/>'True love never gives up; it grows stronger with time.'",
+        title: "Revti, it’s been almost two years — and somehow you still make me smile the same way. I love what we have, and I love where we’re going. Press “Yes” and let’s keep doing this… together ❤️<br/> Some connections only get better with time.'",
         width: 850,
         padding: "2em",
         color: "#716add",
@@ -327,8 +327,8 @@ export default function Page() {
               src={YesGifs[currentGifIndex]}
               alt="Yes Response"
             />
-            <div className="text-4xl md:text-6xl font-bold my-2" style={{ fontFamily: "Charm, serif", fontWeight: "700", fontStyle: "normal" }}>I Love You !!!</div>
-            <div  className="text-4xl md:text-4xl font-bold my-1" style={{ fontFamily: "Beau Rivage, serif", fontWeight: "500", fontStyle: "normal" }}> You’re the love of my life. </div> 
+            <div className="text-4xl md:text-6xl font-bold my-2" style={{ fontFamily: "Charm, serif", fontWeight: "700", fontStyle: "normal" }}>I Cherish You and the moments spend with you !!!</div>
+            <div  className="text-4xl md:text-4xl font-bold my-1" style={{ fontFamily: "Beau Rivage, serif", fontWeight: "500", fontStyle: "normal" }}> You make my life better just by being in it. </div> 
             <WordMareque />
           </>
         ) : (
@@ -345,7 +345,7 @@ export default function Page() {
               alt="Love Animation"
             />
             <h1 className="text-4xl md:text-6xl my-4 text-center">
-              Will you be my Valentine?
+              Will you be my Valentine Revti?
             </h1>
             <div className="flex flex-wrap justify-center gap-2 items-center">
               <button
