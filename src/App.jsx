@@ -3,15 +3,15 @@ import Spline from "@splinetool/react-spline";
 import Swal from "sweetalert2";
 import { BsVolumeUpFill, BsVolumeMuteFill } from "react-icons/bs";
 
-import MouseStealing from './MouseStealer.jsx';
+import MouseStealing from "./MouseStealer.jsx";
 import lovesvg from "./assets/All You Need Is Love SVG Cut File.svg";
 import Lovegif from "./assets/GifData/main_temp.gif";
 import heartGif from "./assets/GifData/happy.gif";
 import sadGif from "./assets/GifData/sad.gif";
-import WordMareque from './MarqueeProposal.jsx';
-import purposerose from './assets/GifData/RoseCute.gif';
-import swalbg from './assets/Lovingbg2_main.jpg';
-import loveu from './assets/GifData/cutieSwal4.gif';
+import WordMareque from "./MarqueeProposal.jsx";
+import purposerose from "./assets/GifData/RoseCute.gif";
+import swalbg from "./assets/Lovingbg2_main.jpg";
+import loveu from "./assets/GifData/cutieSwal4.gif";
 
 //! yes - Gifs Importing
 import yesgif0 from "./assets/GifData/Yes/lovecutie0.gif";
@@ -50,7 +50,20 @@ import nomusic3 from "./assets/AudioTracks/Reject_withoutMe.mp3";
 import nomusic4 from "./assets/AudioTracks/Neutral_Base_IHateU.mp3";
 import nomusic5 from "./assets/AudioTracks/Reject1_TooGood.mp3";
 
-const YesGifs = [yesgif0, yesgif1, yesgif2, yesgif3, yesgif4, yesgif5, yesgif6, yesgif7, yesgif8, yesgif9, yesgif10, yesgif11];
+const YesGifs = [
+  yesgif0,
+  yesgif1,
+  yesgif2,
+  yesgif3,
+  yesgif4,
+  yesgif5,
+  yesgif6,
+  yesgif7,
+  yesgif8,
+  yesgif9,
+  yesgif10,
+  yesgif11,
+];
 const NoGifs = [nogif0, nogif0_1, nogif1, nogif2, nogif3, nogif4, nogif5, nogif6, nogif7, nogif8];
 const YesMusic = [yesmusic1, yesmusic3, yesmusic4, yesmusic2];
 const NoMusic = [nomusic1, nomusic2, nomusic3, nomusic4, nomusic5];
@@ -72,31 +85,31 @@ export default function Page() {
     let position;
     let tooClose;
     const minDistance = 15; // Minimum distance in 'vw' or 'vh'
-  
+
     do {
       position = {
         top: `${Math.random() * 90}vh`, // Keep within 90% of viewport height
         left: `${Math.random() * 90}vw`, // Keep within 90% of viewport width
       };
-  
+
       tooClose = existingPositions.some((p) => {
         const dx = Math.abs(parseFloat(p.left) - parseFloat(position.left));
         const dy = Math.abs(parseFloat(p.top) - parseFloat(position.top));
         return Math.sqrt(dx * dx + dy * dy) < minDistance;
       });
     } while (tooClose);
-  
+
     return position;
   };
-  
+
   const handleMouseEnterYes = () => {
     const gifs = [];
     const positions = [];
-  
+
     for (let i = 0; i < 10; i++) {
       const newPosition = generateRandomPositionWithSpacing(positions);
       positions.push(newPosition);
-  
+
       gifs.push({
         id: `heart-${i}`,
         src: heartGif,
@@ -106,18 +119,18 @@ export default function Page() {
         },
       });
     }
-  
+
     setFloatingGifs(gifs);
   };
-  
+
   const handleMouseEnterNo = () => {
     const gifs = [];
     const positions = [];
-  
+
     for (let i = 0; i < 10; i++) {
       const newPosition = generateRandomPositionWithSpacing(positions);
       positions.push(newPosition);
-  
+
       gifs.push({
         id: `sad-${i}`,
         src: sadGif,
@@ -127,24 +140,24 @@ export default function Page() {
         },
       });
     }
-  
+
     setFloatingGifs(gifs);
   };
-  
+
   const handleMouseLeave = () => {
     setFloatingGifs([]); // floating GIFs on mouse leave
   };
 
   // This ensures the "Yes" gif keeps restarting and playing infinitely
   useEffect(() => {
-    if (gifRef.current && yesPressed && noCount>3) {
+    if (gifRef.current && yesPressed && noCount > 3) {
       gifRef.current.src = YesGifs[currentGifIndex];
     }
   }, [yesPressed, currentGifIndex]);
 
   // Use effect to change the Yes gif every 5 seconds
   useEffect(() => {
-    if (yesPressed && noCount>3) {
+    if (yesPressed && noCount > 3) {
       const intervalId = setInterval(() => {
         setCurrentGifIndex((prevIndex) => (prevIndex + 1) % YesGifs.length);
       }, 5000); // Change gif every 5 seconds
@@ -177,17 +190,18 @@ export default function Page() {
       playMusic(NoMusic[nextSongIndex], NoMusic);
     }
   };
-  
+
   const handleYesClick = () => {
-    if(!popupShown){ // Only for Swal Fire Popup
+    if (!popupShown) {
+      // Only for Swal Fire Popup
       setYesPressed(true);
     }
-    if(noCount>3){
+    if (noCount > 3) {
       setYesPressed(true);
       playMusic(YesMusic[0], YesMusic); // Play the first "Yes" music by default
     }
   };
-  
+
   const playMusic = (url, musicArray) => {
     if (currentAudio) {
       currentAudio.pause(); // Stop the currently playing song
@@ -196,7 +210,7 @@ export default function Page() {
     const audio = new Audio(url);
     audio.muted = isMuted;
     setCurrentAudio(audio); // Set the new audio as the current one
-    audio.addEventListener('ended', () => {
+    audio.addEventListener("ended", () => {
       const currentIndex = musicArray.indexOf(url);
       const nextIndex = (currentIndex + 1) % musicArray.length;
       playMusic(musicArray[nextIndex], musicArray); // Play the next song in the correct array
@@ -212,7 +226,6 @@ export default function Page() {
   };
 
   const getNoButtonText = () => {
-
     const phrases = [
       "No",
       "Are you sure?",
@@ -240,20 +253,21 @@ export default function Page() {
       "Don't leave me hanging! 😬",
       "Plsss? :( You're breaking my heart 💔",
     ];
-    
+
     return phrases[Math.min(noCount, phrases.length - 1)];
   };
 
   useEffect(() => {
     if (yesPressed && noCount < 4 && !popupShown) {
       Swal.fire({
-        title: "I love you sooo Much!!!❤️, You’ve stolen my heart completely!!! 🥰💖 But itni pyaari ladki aur itni jaldi haan? Thoda aur nakhre karke mujhe tarpaao na! 🥰✨",
+        title:
+          "I love you sooo Much!!!❤️, You’ve stolen my heart completely!!! 🥰💖 But such a lovely girl saying yes so quickly? You should’ve teased me a little more and made me wait! 🥰✨",
         showClass: {
           popup: `
             animate__animated
             animate__fadeInUp
             animate__faster
-          `
+          `,
         },
         width: 700,
         padding: "2em",
@@ -270,11 +284,12 @@ export default function Page() {
       setYesPressed(false);
     }
   }, [yesPressed, noCount, popupShown]);
-  
+
   useEffect(() => {
     if (yesPressed && noCount > 3 && !yespopupShown) {
       Swal.fire({
-        title: "I love you so much!! ❤️ You are my everything, my joy, my forever. Every moment with you is a memory I’ll cherish forever, and my heart beats only for you.</br> Will you be the love of my life forever?",
+        title:
+          "I love you so much, Bibi ❤️ </br> You are my everything my happiness, my peace, my safe place. With you, even the simplest moments feel magical, and every second together becomes a memory I want to hold onto forever. My heart found its home in you, and it beats only for you. </br> Will you be the love of my life, today, tomorrow, and always? 🥰✨'",
         width: 800,
         padding: "2em",
         color: "#716add",
@@ -294,7 +309,8 @@ export default function Page() {
   useEffect(() => {
     if (noCount == 25) {
       Swal.fire({
-        title: "My love for you is endless, like the stars in the sky—shining for you every night, even if you don’t always notice. 🌟 I’ll wait patiently, proving every day that you’re my everything. ❤️ Please press ‘Yes’ and let’s make this a forever story. 🥰✨<br/>'True love never gives up; it grows stronger with time.'",
+        title:
+          "My love for you is endless, like the stars in the sky shining for you every night, even if you don’t always notice. 🌟 I’ll wait patiently, proving every day that you’re my everything. ❤️ Please press ‘Yes’ and let’s make this a forever story. 🥰✨<br/>'True love never gives up; it grows stronger with time.'",
         width: 850,
         padding: "2em",
         color: "#716add",
@@ -319,7 +335,7 @@ export default function Page() {
       {noCount > 16 && noCount < 25 && yesPressed == false && <MouseStealing />}
 
       <div className="overflow-hidden flex flex-col items-center justify-center pt-4 h-screen -mt-16 selection:bg-rose-600 selection:text-white text-zinc-900">
-        {yesPressed && noCount>3 ? (
+        {yesPressed && noCount > 3 ? (
           <>
             <img
               ref={gifRef}
@@ -327,8 +343,19 @@ export default function Page() {
               src={YesGifs[currentGifIndex]}
               alt="Yes Response"
             />
-            <div className="text-4xl md:text-6xl font-bold my-2" style={{ fontFamily: "Charm, serif", fontWeight: "700", fontStyle: "normal" }}>I Love You !!!</div>
-            <div  className="text-4xl md:text-4xl font-bold my-1" style={{ fontFamily: "Beau Rivage, serif", fontWeight: "500", fontStyle: "normal" }}> You’re the love of my life. </div> 
+            <div
+              className="text-4xl md:text-6xl font-bold my-2"
+              style={{ fontFamily: "Charm, serif", fontWeight: "700", fontStyle: "normal" }}
+            >
+              I Love You Bibi❤️!!!
+            </div>
+            <div
+              className="text-4xl md:text-4xl font-bold my-1"
+              style={{ fontFamily: "Beau Rivage, serif", fontWeight: "600", fontStyle: "normal" }}
+            >
+              {" "}
+              You’re the love of my life.{" "}
+            </div>
             <WordMareque />
           </>
         ) : (
@@ -338,14 +365,9 @@ export default function Page() {
               className="fixed animate-pulse top-10 md:left-15 left-6 md:w-40 w-28"
               alt="Love SVG"
             />
-            <img
-              ref={gifRef}
-              className="h-[230px] rounded-lg"
-              src={Lovegif}
-              alt="Love Animation"
-            />
+            <img ref={gifRef} className="h-[230px] rounded-lg" src={Lovegif} alt="Love Animation" />
             <h1 className="text-4xl md:text-6xl my-4 text-center">
-              Will you be my Valentine?
+              Will you be my Valentine, Bibi?❤️
             </h1>
             <div className="flex flex-wrap justify-center gap-2 items-center">
               <button
@@ -377,12 +399,12 @@ export default function Page() {
             ))}
           </>
         )}
-        <button
+        {/* <button
           className="fixed bottom-10 right-10 bg-gray-200 p-1 mb-2 rounded-full hover:bg-gray-300"
           onClick={toggleMute}
         >
           {isMuted ? <BsVolumeMuteFill size={26} /> : <BsVolumeUpFill size={26} />}
-        </button>
+        </button> */}
         <Footer />
       </div>
     </>
@@ -392,7 +414,7 @@ export default function Page() {
 const Footer = () => {
   return (
     <a
-      className="fixed bottom-2 right-2 backdrop-blur-md opacity-80 hover:opacity-95 border p-1 rounded border-rose-300"
+      className="fixed bottom-2 right-2 backdrop-blur-md opacity-80 hover:opacity-95 p-1"
       href="https://github.com/UjjwalSaini07"
       target="_blank"
       rel="noopener noreferrer"
@@ -400,17 +422,11 @@ const Footer = () => {
       Made with{" "}
       <span role="img" aria-label="heart">
         ❤️
-      </span>
-      {" "}by Ujjwal
+      </span>{" "}
+      by Baibhav
     </a>
   );
 };
-
-
-
-
-
-
 
 // ! Pathways-
 // https://app.spline.design/file/48a9d880-40c9-4239-bd97-973aae012ee0
