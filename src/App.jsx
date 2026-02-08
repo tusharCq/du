@@ -12,6 +12,7 @@ import WordMareque from './MarqueeProposal.jsx';
 import purposerose from './assets/GifData/RoseCute.gif';
 import swalbg from './assets/Lovingbg2_main.jpg';
 import loveu from './assets/GifData/cutieSwal4.gif';
+import introSong from "./assets/Enna Sona Ok Jaanu 320 Kbps.mp3";
 
 //! yes - Gifs Importing
 import yesgif0 from "./assets/GifData/Yes/lovecutie0.gif";
@@ -65,7 +66,32 @@ export default function Page() {
   const [yespopupShown, setYesPopupShown] = useState(false);
 
   const gifRef = useRef(null); // Ref to ensure gif plays infinitely
+  const introAudioRef = useRef(null); // Ref for intro song
   const yesButtonSize = noCount * 16 + 16;
+
+  // Play intro song when page loads (starting from 30 seconds)
+  useEffect(() => {
+    introAudioRef.current = new Audio(introSong);
+    introAudioRef.current.volume = 0.5;
+    introAudioRef.current.currentTime = 30; // Start from 00:30
+    
+    const playIntro = async () => {
+      try {
+        await introAudioRef.current.play();
+      } catch (err) {
+        console.log("Autoplay blocked - user interaction required");
+      }
+    };
+    
+    playIntro();
+
+    return () => {
+      if (introAudioRef.current) {
+        introAudioRef.current.pause();
+        introAudioRef.current = null;
+      }
+    };
+  }, []);
 
   const [floatingGifs, setFloatingGifs] = useState([]); // Array to store active floating GIFs
   const generateRandomPositionWithSpacing = (existingPositions) => {
@@ -311,43 +337,43 @@ export default function Page() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-screen h-screen -z-10">
+      <div className="top-0 left-0 -z-10 fixed w-screen h-screen">
         <Spline scene="https://prod.spline.design/oSxVDduGPlsuUIvT/scene.splinecode" />
         {/* <Spline scene="https://prod.spline.design/ZU2qkrU9Eyt1PHBx/scene.splinecode" /> */}
       </div>
 
       {noCount > 16 && noCount < 25 && yesPressed == false && <MouseStealing />}
 
-      <div className="overflow-hidden flex flex-col items-center justify-center pt-4 h-screen -mt-16 selection:bg-rose-600 selection:text-white text-zinc-900">
+      <div className="flex flex-col justify-center items-center selection:bg-rose-600 -mt-16 pt-4 h-screen overflow-hidden text-zinc-900 selection:text-white">
         {yesPressed && noCount>3 ? (
           <>
             <img
               ref={gifRef}
-              className="h-[230px] rounded-lg"
+              className="rounded-lg h-[230px]"
               src={YesGifs[currentGifIndex]}
               alt="Yes Response"
             />
-            <div className="text-4xl md:text-6xl font-bold my-2" style={{ fontFamily: "Charm, serif", fontWeight: "700", fontStyle: "normal" }}>I Love You !!!</div>
-            <div  className="text-4xl md:text-4xl font-bold my-1" style={{ fontFamily: "Beau Rivage, serif", fontWeight: "500", fontStyle: "normal" }}> You’re the love of my life. </div> 
+            <div className="my-2 font-bold text-4xl md:text-6xl" style={{ fontFamily: "Charm, serif", fontWeight: "700", fontStyle: "normal" }}>I Love You !!!</div>
+            <div  className="my-1 font-bold text-4xl md:text-4xl" style={{ fontFamily: "Beau Rivage, serif", fontWeight: "500", fontStyle: "normal" }}> You’re the love of my life. </div> 
             <WordMareque />
           </>
         ) : (
           <>
             <img
               src={lovesvg}
-              className="fixed animate-pulse top-10 md:left-15 left-6 md:w-40 w-28"
+              className="top-10 left-6 md:left-15 fixed w-28 md:w-40 animate-pulse"
               alt="Love SVG"
             />
             <img
               ref={gifRef}
-              className="h-[230px] rounded-lg"
+              className="rounded-lg h-[230px]"
               src={Lovegif}
               alt="Love Animation"
             />
-            <h1 className="text-4xl md:text-6xl my-4 text-center">
+            <h1 className="my-4 text-4xl md:text-6xl text-center">
               Will you be my Valentine?
             </h1>
-            <div className="flex flex-wrap justify-center gap-2 items-center">
+            <div className="flex flex-wrap justify-center items-center gap-2">
               <button
                 onMouseEnter={handleMouseEnterYes}
                 onMouseLeave={handleMouseLeave}
@@ -361,7 +387,7 @@ export default function Page() {
                 onMouseEnter={handleMouseEnterNo}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleNoClick}
-                className="bg-rose-500 hover:bg-rose-600 rounded-lg text-white font-bold py-2 px-4"
+                className="bg-rose-500 hover:bg-rose-600 px-4 py-2 rounded-lg font-bold text-white"
               >
                 {noCount === 0 ? "No" : getNoButtonText()}
               </button>
@@ -378,7 +404,7 @@ export default function Page() {
           </>
         )}
         <button
-          className="fixed bottom-10 right-10 bg-gray-200 p-1 mb-2 rounded-full hover:bg-gray-300"
+          className="right-10 bottom-10 fixed bg-gray-200 hover:bg-gray-300 mb-2 p-1 rounded-full"
           onClick={toggleMute}
         >
           {isMuted ? <BsVolumeMuteFill size={26} /> : <BsVolumeUpFill size={26} />}
@@ -392,7 +418,7 @@ export default function Page() {
 const Footer = () => {
   return (
     <a
-      className="fixed bottom-2 right-2 backdrop-blur-md opacity-80 hover:opacity-95 border p-1 rounded border-rose-300"
+      className="right-2 bottom-2 fixed opacity-80 hover:opacity-95 backdrop-blur-md p-1 border border-rose-300 rounded"
       href="https://github.com/UjjwalSaini07"
       target="_blank"
       rel="noopener noreferrer"
