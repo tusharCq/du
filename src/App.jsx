@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+\import React, { useState, useRef, useEffect } from "react";
 import Spline from "@splinetool/react-spline";
 import Swal from "sweetalert2";
-import { BsVolumeUpFill, BsVolumeMuteFill } from "react-icons/bs";
 
 import MouseStealing from './MouseStealer.jsx';
 import lovesvg from "./assets/All You Need Is Love SVG Cut File.svg";
@@ -12,7 +11,6 @@ import WordMareque from './MarqueeProposal.jsx';
 import purposerose from './assets/GifData/RoseCute.gif';
 import swalbg from './assets/Lovingbg2_main.jpg';
 import loveu from './assets/GifData/cutieSwal4.gif';
-import introSong from "./assets/Enna Sona Ok Jaanu 320 Kbps.mp3";
 
 //! yes - Gifs Importing
 import yesgif0 from "./assets/GifData/Yes/lovecutie0.gif";
@@ -39,49 +37,18 @@ import nogif6 from "./assets/GifData/No/breakRej6.gif";
 import nogif7 from "./assets/GifData/No/RejectNo.gif";
 import nogif8 from "./assets/GifData/No/breakRej7.gif";
 
-// Use the intro song for all music responses
-const YesMusic = [introSong];
-const NoMusic = [introSong];
-
 const YesGifs = [yesgif0, yesgif1, yesgif2, yesgif3, yesgif4, yesgif5, yesgif6, yesgif7, yesgif8, yesgif9, yesgif10, yesgif11];
 const NoGifs = [nogif0, nogif0_1, nogif1, nogif2, nogif3, nogif4, nogif5, nogif6, nogif7, nogif8];
 
 export default function Page() {
   const [noCount, setNoCount] = useState(0);
   const [yesPressed, setYesPressed] = useState(false);
-  const [currentAudio, setCurrentAudio] = useState(null); // Tracks the currently playing song
   const [currentGifIndex, setCurrentGifIndex] = useState(0); // Track the current gif index
-  const [isMuted, setIsMuted] = useState(false);
   const [popupShown, setPopupShown] = useState(false);
   const [yespopupShown, setYesPopupShown] = useState(false);
 
   const gifRef = useRef(null); // Ref to ensure gif plays infinitely
-  const introAudioRef = useRef(null); // Ref for intro song
   const yesButtonSize = noCount * 16 + 16;
-
-  // Play intro song when page loads (starting from 30 seconds)
-  useEffect(() => {
-    introAudioRef.current = new Audio(introSong);
-    introAudioRef.current.volume = 0.5;
-    introAudioRef.current.currentTime = 30; // Start from 00:30
-    
-    const playIntro = async () => {
-      try {
-        await introAudioRef.current.play();
-      } catch (err) {
-        console.log("Autoplay blocked - user interaction required");
-      }
-    };
-    
-    playIntro();
-
-    return () => {
-      if (introAudioRef.current) {
-        introAudioRef.current.pause();
-        introAudioRef.current = null;
-      }
-    };
-  }, []);
 
   const [floatingGifs, setFloatingGifs] = useState([]); // Array to store active floating GIFs
   const generateRandomPositionWithSpacing = (existingPositions) => {
@@ -186,12 +153,6 @@ export default function Page() {
         gifRef.current.src = NoGifs[nextGifIndex];
       }
     }
-
-    // Play song on first press or every 7th press after
-    if (nextCount === 1 || (nextCount - 1) % 7 === 0) {
-      const nextSongIndex = Math.floor(nextCount / 7) % NoMusic.length;
-      playMusic(NoMusic[nextSongIndex], NoMusic);
-    }
   };
   
   const handleYesClick = () => {
@@ -200,38 +161,7 @@ export default function Page() {
     }
     if(noCount>3){
       setYesPressed(true);
-      playMusic(YesMusic[0], YesMusic); // Play the first "Yes" music by default
     }
-  };
-  
-  const playMusic = (url, musicArray) => {
-    // Check if we're already playing the intro song (to avoid restarting it)
-    if (currentAudio && currentAudio.src === window.location.href + url.split('/').pop()) {
-      // Already playing this audio, just ensure it's playing
-      currentAudio.play().catch(() => {});
-      return;
-    }
-    
-    if (currentAudio) {
-      currentAudio.pause(); // Stop the currently playing song
-      currentAudio.currentTime = 0; // Reset to the start
-    }
-    const audio = new Audio(url);
-    audio.muted = isMuted;
-    setCurrentAudio(audio); // Set the new audio as the current one
-    audio.addEventListener('ended', () => {
-      const currentIndex = musicArray.indexOf(url);
-      const nextIndex = (currentIndex + 1) % musicArray.length;
-      playMusic(musicArray[nextIndex], musicArray); // Play the next song in the correct array
-    });
-    audio.play();
-  };
-
-  const toggleMute = () => {
-    if (currentAudio) {
-      currentAudio.muted = !isMuted;
-    }
-    setIsMuted(!isMuted);
   };
 
   const getNoButtonText = () => {
@@ -400,12 +330,6 @@ export default function Page() {
             ))}
           </>
         )}
-        <button
-          className="right-10 bottom-10 fixed bg-gray-200 hover:bg-gray-300 mb-2 p-1 rounded-full"
-          onClick={toggleMute}
-        >
-          {isMuted ? <BsVolumeMuteFill size={26} /> : <BsVolumeUpFill size={26} />}
-        </button>
         <Footer />
       </div>
     </>
